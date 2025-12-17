@@ -6,11 +6,11 @@ import WorkIcon from "@mui/icons-material/Work";
 import { useEffect, type JSX } from "react";
 import type { SectionKey } from "../App";
 
-const actions: { id: SectionKey; icon: JSX.Element; label: string }[] = [
-  { id: "home", icon: <HomeIcon />, label: "Home" },
-  { id: "profile", icon: <PersonIcon />, label: "Profile" },
-  { id: "education", icon: <SchoolIcon />, label: "Education" },
-  { id: "projects", icon: <WorkIcon />, label: "Work" },
+const actions: { id: SectionKey; label: string; icon: JSX.Element }[] = [
+  { id: "home", label: "Home", icon: <HomeIcon /> },
+  { id: "profile", label: "Profile", icon: <PersonIcon /> },
+  { id: "education", label: "Education", icon: <SchoolIcon /> },
+  { id: "projects", label: "Work", icon: <WorkIcon /> },
 ];
 
 export default function DynamicIsland({
@@ -22,13 +22,27 @@ export default function DynamicIsland({
 }) {
   useEffect(() => {
     const handler = (e: KeyboardEvent) => {
+      // Ignore shortcuts when typing or interacting with controls
+      const target = e.target as HTMLElement;
+      if (
+        target.tagName === "INPUT" ||
+        target.tagName === "TEXTAREA" ||
+        target.isContentEditable
+      ) {
+        return;
+      }
+
       const map: Record<string, SectionKey> = {
         "1": "home",
         "2": "profile",
         "3": "education",
         "4": "projects",
       };
-      if (map[e.key]) setActive(map[e.key]);
+
+      if (map[e.key]) {
+        e.preventDefault();
+        setActive(map[e.key]);
+      }
     };
 
     window.addEventListener("keydown", handler);
@@ -37,6 +51,8 @@ export default function DynamicIsland({
 
   return (
     <Box
+      role="navigation"
+      aria-label="Section navigation"
       position="fixed"
       top={18}
       left="50%"
@@ -50,17 +66,36 @@ export default function DynamicIsland({
         boxShadow: "0 10px 40px rgba(0,0,0,0.45)",
       }}
     >
-      <Stack direction="row" spacing={1}>
-        {actions.map((a, i) => (
-          <Tooltip key={a.id} title={`${a.label} (${i + 1})`} arrow>
-            <IconButton
-              color={active === a.id ? "primary" : "default"}
-              onClick={() => setActive(a.id)}
+      <Stack direction="row" spacing={{ xs: 0.5, sm: 1, md: 1.5 }}>
+        {actions.map((a, i) => {
+          const isActive = active === a.id;
+
+          return (
+            <Tooltip
+              key={a.id}
+              title={`${a.label} (${i + 1})`}
+              arrow
             >
-              {a.icon}
-            </IconButton>
-          </Tooltip>
-        ))}
+              <IconButton
+                aria-current={isActive ? "page" : undefined}
+                color={isActive ? "primary" : "default"}
+                onClick={() => setActive(a.id)}
+                sx={{
+                  borderRadius: "50%",
+                  outline: isActive
+                    ? "2px solid"
+                    : "2px solid transparent",
+                  outlineColor: isActive
+                    ? "primary.main"
+                    : "transparent",
+                    fontSize: { xs: 20, sm: 24, md: 28 }
+                }}
+              >
+                {a.icon}
+              </IconButton>
+            </Tooltip>
+          );
+        })}
       </Stack>
     </Box>
   );
