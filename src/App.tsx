@@ -7,23 +7,44 @@ import Education from "./sections/Education";
 import Projects from "./sections/Projects";
 import { useSwipeable } from "react-swipeable";
 import { motion, AnimatePresence } from "framer-motion";
-import {  } from "react";
+import {type Variants } from "framer-motion";
 export type SectionKey = "home" | "profile" | "education" | "projects";
 
 const sections: SectionKey[] = ["home", "profile", "education", "projects"];
-
+const slideVariants: Variants = {
+  enter: (direction: number) => ({
+    x: direction * 80,
+    opacity: 0,
+  }),
+  center: {
+    x: 0,
+    opacity: 1,
+  },
+  exit: (direction: number) => ({
+    x: -direction * 80,
+    opacity: 0,
+  }),
+};
 export default function App() {
   const [active, setActive] = useState<SectionKey>("home");
-  const [direction, setDirection] = useState(0);
+  const [direction, setDirection] = useState<1 | -1>(1);
 
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down("md"));
 
-  const navigate = (next: SectionKey) => {
+  // ✅ Safe navigation (edge-aware)
+  const navigateByIndex = (nextIndex: number) => {
     const currentIndex = sections.indexOf(active);
-    const nextIndex = sections.indexOf(next);
+
+    // 🚫 Block edge overflow
+    if (nextIndex < 0 || nextIndex >= sections.length) return;
+
     setDirection(nextIndex > currentIndex ? 1 : -1);
-    setActive(next);
+    setActive(sections[nextIndex]);
+  };
+
+  const navigate = (next: SectionKey) => {
+    navigateByIndex(sections.indexOf(next));
   };
 
   const renderSection = () => {
@@ -43,13 +64,12 @@ export default function App() {
     isMobile
       ? {
           onSwipedLeft: () => {
-            const i = sections.indexOf(active);
-            if (i < sections.length - 1) navigate(sections[i + 1]);
+            navigateByIndex(sections.indexOf(active) + 1);
           },
           onSwipedRight: () => {
-            const i = sections.indexOf(active);
-            if (i > 0) navigate(sections[i - 1]);
+            navigateByIndex(sections.indexOf(active) - 1);
           },
+          preventScrollOnSwipe: true,
           trackMouse: false,
         }
       : {}
@@ -75,21 +95,24 @@ export default function App() {
             p: { xs: 3, md: 5 },
             boxShadow: "0 30px 90px rgba(0,0,0,0.5)",
             borderRadius: 5,
-            overflow: "hidden", // 👈 important for slide
+            overflow: "hidden",
           }}
         >
           {isMobile ? (
-            <AnimatePresence mode="wait">
-              <motion.div
-                key={active}
-                initial={{ x: direction * 60, opacity: 0 }}
-                animate={{ x: 0, opacity: 1 }}
-                exit={{ x: -direction * 60, opacity: 0 }}
-                transition={{ duration: 0.3, ease: "easeOut" }}
-              >
-                {renderSection()}
-              </motion.div>
-            </AnimatePresence>
+<AnimatePresence mode="wait" custom={direction}>
+  <motion.div
+    key={active}
+    custom={direction}
+    variants={slideVariants}
+    initial="enter"
+    animate="center"
+    exit="exit"
+    transition={{ duration: 0.3, ease: "easeOut" }}
+  >
+    {renderSection()}
+  </motion.div>
+</AnimatePresence>
+
           ) : (
             renderSection()
           )}
