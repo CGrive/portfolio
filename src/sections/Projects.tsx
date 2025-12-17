@@ -13,8 +13,7 @@ import {
 import { useState } from "react";
 import ArticleIcon from "@mui/icons-material/Article";
 import CodeIcon from "@mui/icons-material/Code";
-
-// ---- Types ----
+ 
 type WorkItem = {
   id: string;
   kind: "project" | "paper";
@@ -24,27 +23,27 @@ type WorkItem = {
   tags: string[];
   links?: { label: string; href: string }[];
 };
-
-// ---- Data ----
+ 
 const WORK: WorkItem[] = [
   {
-    id: "dyn-island-portfolio",
+    id: "first_project",
     kind: "project",
-    title: "Dynamic Island Portfolio",
-    summary: "State-driven portfolio UI inspired by control surfaces.",
+    title: "TicTacToe",
+    summary: "My first ever project in html,css and javascript",
     description:
-      "A React + TypeScript application that treats navigation as a control surface. Focuses on state, keyboard-first UX, and restrained motion rather than scroll-based pages.",
-    tags: ["React", "TypeScript", "MUI", "UX"],
-    links: [{ label: "GitHub", href: "https://github.com/cgrive" }],
+      "A simple TicTacToe project i made in html,css and javascript. This is one of my first minor projects i built after learning web development",
+    tags: ["HTML", "JavaScript", "CSS"],
+    links: [{ label: "GitHub", href: "https://github.com/CGrive/TicTacToe" }, {label: "Github Pages", href: "cgrive.github.io/TicTacToe/"}],
   },
   {
-    id: "systems-notes",
-    kind: "paper",
-    title: "Notes on Systems Thinking",
-    summary: "Exploratory writing on systems, constraints, and interfaces.",
+    id: "cpp_lib_format",
+    kind: "project",
+    title: "FormatString in C++",
+    summary: "Custom string formatting library for C++",
     description:
-      "A collection of research-style notes exploring how constraints shape software architecture, interface design, and long-term maintainability.",
-    tags: ["Systems", "Research"],
+      "A custom string formatting library for C++",
+    tags: ["C++", "Formatting"],
+    links : [{label:"GitHub", href:"https://github.com/CGrive/FormatString"}]
   },
 ];
 
@@ -113,7 +112,7 @@ export default function Projects() {
                     variant="outlined"
                     sx={{ mt: 1 }}
                     onClick={() => setOpenId(item.id)}
-                    fullWidth={{ xs: true, sm: false } as any} // wrapped in "any" for TS; optional: can remove and use Box wrapper
+                    fullWidth={{ xs: true, sm: false } as any} 
                   >
                     Details
                   </Button>

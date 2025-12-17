@@ -32,11 +32,9 @@ export default function App() {
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down("md"));
 
-  // ✅ Safe navigation (edge-aware)
   const navigateByIndex = (nextIndex: number) => {
     const currentIndex = sections.indexOf(active);
 
-    // 🚫 Block edge overflow
     if (nextIndex < 0 || nextIndex >= sections.length) return;
 
     setDirection(nextIndex > currentIndex ? 1 : -1);

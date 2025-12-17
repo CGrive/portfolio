@@ -68,7 +68,7 @@ export const theme = createTheme({
                     borderRadius: 999,
                 },
                 outlined: {
-                    borderColor: "rgba(255,255,255,0.15)",
+                    borderColor: "rgba(255,255,255,0.2)",
                     "&:hover": {
                         borderColor: "#38bdf8",
                         backgroundColor: "rgba(56,189,248,0.08)",

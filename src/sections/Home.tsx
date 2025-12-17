@@ -40,7 +40,6 @@ export default function Home({ goTo }: { goTo: (s: SectionKey) => void }) {
         maxWidth={{ xs: 320, sm: 500, md: 760 }}
         width="100%"
       >
-        {/* Name */}
         <Typography
           variant="h3"
           fontWeight={600}
@@ -49,7 +48,6 @@ export default function Home({ goTo }: { goTo: (s: SectionKey) => void }) {
           I'm Shani
         </Typography>
 
-        {/* Typing animation */}
         <Typography
           variant="h5"
           color="text.secondary"
@@ -58,7 +56,6 @@ export default function Home({ goTo }: { goTo: (s: SectionKey) => void }) {
           {text}
         </Typography>
 
-        {/* Description */}
         <Typography
           color="text.secondary"
           sx={{ fontSize: { xs: "0.9rem", sm: "1rem", md: "1.1rem" } }}
@@ -67,7 +64,6 @@ export default function Home({ goTo }: { goTo: (s: SectionKey) => void }) {
           and building software through programming and experimentation.
         </Typography>
 
-        {/* Chips */}
         <Stack
           direction={{ xs: "column", sm: "row" }}
           spacing={{ xs: 1, sm: 1 }}
@@ -79,7 +75,6 @@ export default function Home({ goTo }: { goTo: (s: SectionKey) => void }) {
           <Chip label="Research" size="small" />
         </Stack>
 
-        {/* CTAs */}
         <Stack
           direction={{ xs: "column", sm: "row" }}
           spacing={{ xs: 1, sm: 2 }}
