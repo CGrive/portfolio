@@ -26,14 +26,14 @@ type WorkItem = {
  
 const WORK: WorkItem[] = [
   {
-    id: "first_project",
+    id: "001",
     kind: "project",
-    title: "TicTacToe",
-    summary: "My first ever project in html,css and javascript",
+    title: "SV Academy",
+    summary: "A Website for an academy made using HTML, CSS and Javascript",
     description:
-      "A simple TicTacToe project i made in html,css and javascript. This is one of my first minor projects i built after learning web development",
+      "Made this static website for an academy using vanilla stack: HTML, CSS and Javascript",
     tags: ["HTML", "JavaScript", "CSS"],
-    links: [{ label: "GitHub", href: "https://github.com/CGrive/TicTacToe" }, {label: "Github Pages", href: "cgrive.github.io/TicTacToe/"}],
+    links: [{ label: "GitHub", href: "https://github.com/CGrive/S.V.Academy/" }, {label: "Github Pages", href: "https://cgrive.github.io/S.V.Academy/"}],
   },
   {
     id: "cpp_lib_format",
@@ -110,9 +110,11 @@ export default function Projects() {
                   <Button
                     size="small"
                     variant="outlined"
-                    sx={{ mt: 1 }}
+                    sx={{
+                      mt: 1,
+                      width: { xs: '100%', sm: 'auto' },
+                    }}
                     onClick={() => setOpenId(item.id)}
-                    fullWidth={{ xs: true, sm: false } as any} 
                   >
                     Details
                   </Button>
